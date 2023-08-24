@@ -7,6 +7,7 @@ type TopMenuProps = {
   current?: string;
   onClick?: MenuProps["onClick"];
   items: MenuProps["items"];
+  style?: React.CSSProperties;
 };
 
 const TopMenu: React.FC = (props: TopMenuProps) => {
@@ -23,6 +24,7 @@ const TopMenu: React.FC = (props: TopMenuProps) => {
       selectedKeys={[props.current]}
       mode="horizontal"
       items={props.items}
+      style={props.style}
     />
   );
 };

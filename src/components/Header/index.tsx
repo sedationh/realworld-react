@@ -51,15 +51,20 @@ function Header() {
         <div>Logo</div>
         <div
           style={{
-            width: "800px",
-            display: "flex",
-            justifyContent: "flex-end",
+            flex: 1,
           }}
         >
-          <TopMenu items={items} />
+          <TopMenu
+            items={items}
+            style={{
+              minWidth: 0,
+              flex: "auto",
+              justifyContent: "flex-end",
+              border: "none",
+            }}
+          />
         </div>
       </Flex>
-      {/* <TopMenu items={items} /> */}
     </div>
   );
 }
