@@ -1,24 +1,30 @@
-import { CSSProperties, PropsWithChildren } from "react"
+import { CSSProperties, PropsWithChildren } from "react";
 
 type FlexProps = PropsWithChildren<{
-  alignItems?: CSSProperties["alignItems"]
-  style?: CSSProperties
-}>
+  alignItems?: CSSProperties["alignItems"];
+  justifyContent?: CSSProperties["justifyContent"];
+  style?: CSSProperties;
+}>;
 
 function Flex(props: FlexProps) {
-  const { alignItems = "center", children, style = {} } = props
+  const {
+    alignItems = "center",
+    justifyContent = "center",
+    children,
+    style = {},
+  } = props;
   return (
     <div
       style={{
         display: "flex",
         alignItems: alignItems,
-        justifyContent: "",
+        justifyContent: justifyContent,
         ...style,
       }}
     >
       {children}
     </div>
-  )
+  );
 }
 
-export default Flex
+export default Flex;
