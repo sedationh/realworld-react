@@ -1,71 +1,103 @@
-import { Link } from "react-router-dom";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
+import { Link, useLocation } from "react-router-dom";
+import { Space } from "antd";
 import Flex from "../Flex";
-import TopMenu from "../TopMenu";
+import MainBox from "../MainBox";
+import { useEffect, useState } from "react";
 
 function Header() {
-  const items: MenuProps["items"] = [
-    {
-      label: <Link to="/"> home</Link>,
-      key: "mail",
-      icon: <MailOutlined />,
-    },
-    {
-      label: <Link to="/create"> create</Link>,
-      key: "app",
-      icon: <AppstoreOutlined />,
-    },
-    {
-      label: <Link to="/setting"> setting</Link>,
-      key: "SubMenu",
-      icon: <SettingOutlined />,
-    },
-    {
-      label: <Link to="/user/hh"> user</Link>,
-      key: "user",
-    },
-    {
-      label: <Link to="/login"> login</Link>,
-      key: "login",
-    },
-    {
-      label: <Link to="/register"> register</Link>,
-      key: "register",
-    },
-  ];
-
+  const location = useLocation();
+  const [current, setCurrent] = useState("home");
+  useEffect(() => {
+    const current = location.pathname.split("/")[1] || "home";
+    setCurrent(current);
+  });
   return (
-    <div
-      style={{
-        width: "1140px",
-        margin: "0 auto",
-        justifyContent: "space-between",
-      }}
-    >
-      <Flex justifyContent="space-between">
-        <div>Logo</div>
+    <MainBox>
+      <Flex
+        justifyContent="space-between"
+        style={{
+          padding: "8px 16px",
+        }}
+      >
         <div
           style={{
-            flex: 1,
+            fontSize: "24px",
+            fontWeight: "bold",
+            color: "#5CB85C",
           }}
         >
-          <TopMenu
-            items={items}
-            style={{
-              minWidth: 0,
-              flex: "auto",
-              justifyContent: "flex-end",
-              border: "none",
-            }}
-          />
+          conduit
         </div>
+        <Space>
+          <span>
+            <Link
+              to="/"
+              style={{
+                color: current === "home" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              Home
+            </Link>
+          </span>
+          <span>
+            <Link
+              to="/create"
+              style={{
+                color: current === "create" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              Create
+            </Link>
+          </span>
+          <span>
+            <Link
+              to="/setting"
+              style={{
+                color: current === "setting" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              Setting
+            </Link>
+          </span>
+          <span>
+            <Link
+              to="/user/hh"
+              style={{
+                color: current === "user" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              User
+            </Link>
+          </span>
+          <span>
+            <Link
+              to="/login"
+              style={{
+                color: current === "login" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              Login
+            </Link>
+          </span>
+          <span>
+            <Link
+              to="/register"
+              style={{
+                color: current === "register" ? "rgba(0, 0, 0, 0.8)" : "",
+              }}
+            >
+              {" "}
+              Register
+            </Link>
+          </span>
+        </Space>
       </Flex>
-    </div>
+    </MainBox>
   );
 }
 

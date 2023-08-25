@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-// import { hasLogin } from "../api/request";
+import { hasLogin } from "../../utils/request";
 import { useNavigate } from "react-router-dom";
 
 function Auth(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!hasLogin()) {
-    //   navigate("/login");
-    // }
+    if (!hasLogin()) {
+      navigate("/login");
+    }
   }, []);
   return <div>{props.children}</div>;
 }

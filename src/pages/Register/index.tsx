@@ -1,18 +1,32 @@
-import React from "react";
 import Flex from "../../components/Flex";
 import MainBox from "../../components/MainBox";
-import Input from "../../components/Input";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Button, Form, Input } from "antd";
+import { register } from "../../service";
 
 function Register() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [username, setUsername] = React.useState("");
   const nav = useNavigate();
-  function clickSignIn() {
-    console.log({ email, password });
-  }
+  const onFinish = (values: any) => {
+    register({
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    }).then((res) => {
+      if (!res) return;
+      alert("注册成功");
+      nav("/home");
+    });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    alert("注册失败  " + errorInfo);
+  };
+
+  type FieldType = {
+    email?: string;
+    password?: string;
+    username?: string;
+  };
 
   return (
     <MainBox width="540px">
@@ -23,7 +37,7 @@ function Register() {
           flexDirection: "column",
         }}
       >
-        <p> Sign Up</p>
+        <div> Sign up</div>
         <p
           style={{
             fontSize: "16px",
@@ -38,45 +52,80 @@ function Register() {
           Have an account?
         </p>
       </Flex>
-      <div
+      <MainBox
+        width="540px"
         style={{
           marginTop: "20px",
         }}
       >
-        <Input
-          placeholder="Username"
-          value={username}
-          size="large"
-          allowClear
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <Input
-          placeholder="Email"
-          value={email}
-          size="large"
-          allowClear
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <Input
-          placeholder="Password"
-          value={password}
-          type="password"
-          size="large"
-          allowClear
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </div>
-      <Flex justifyContent="flex-end">
-        <Button type="primary" onClick={clickSignIn} size="large">
-          Sign Up
-        </Button>
-      </Flex>
+        <Form
+          name="loginForm"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ width: "100%" }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item<FieldType>
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input
+              placeholder="Username"
+              style={{
+                width: "540px",
+                padding: "12px 24px",
+              }}
+            />
+          </Form.Item>
+          <Form.Item<FieldType>
+            name="email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not valid E-mail!",
+              },
+              {
+                required: true,
+                message: "Please input your E-mail!",
+              },
+            ]}
+          >
+            <Input
+              placeholder="Email"
+              style={{
+                width: "540px",
+                padding: "12px 24px",
+              }}
+            />
+          </Form.Item>
+          <Form.Item<FieldType>
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password
+              placeholder="Password"
+              style={{
+                width: "540px",
+                padding: "12px 24px",
+              }}
+            />
+          </Form.Item>
+          <Form.Item wrapperCol={{ span: 8, offset: 20 }}>
+            <Button type="primary" htmlType="submit">
+              Sign up
+            </Button>
+          </Form.Item>
+        </Form>
+      </MainBox>
     </MainBox>
   );
 }

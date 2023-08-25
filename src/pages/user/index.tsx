@@ -1,5 +1,5 @@
-function UserPage() {
-  return <div>UserPage</div>
+function User() {
+  return <div>User</div>;
 }
 
-export default UserPage
+export default User;

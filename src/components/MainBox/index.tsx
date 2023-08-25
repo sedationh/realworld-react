@@ -1,12 +1,18 @@
-function MainBox({ children, width = "1140px" }) {
+type MainBoxProps = {
+  children: React.ReactNode;
+  width?: string;
+  style?: React.CSSProperties;
+};
+function MainBox(props: MainBoxProps) {
   return (
     <div
       style={{
-        width: width,
+        width: props.width || "1140px",
         margin: "0 auto",
+        ...props.style,
       }}
     >
-      {children}
+      {props.children}
     </div>
   );
 }
