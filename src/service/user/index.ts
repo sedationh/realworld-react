@@ -1,6 +1,7 @@
 import { request, setLocalToken } from "../../utils/request";
-import { User, lognType, registerType } from "./type";
-export const register = (user: registerType) => {
+import { User, LoginType, RegisterType } from "./type";
+
+export const register = (user: RegisterType) => {
   return request({
     method: "POST",
     url: "/users",
@@ -8,7 +9,7 @@ export const register = (user: registerType) => {
   });
 };
 
-export const login = async (user: lognType) => {
+export const login = async (user: LoginType) => {
   const {
     data: {
       user: { token },

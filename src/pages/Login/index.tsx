@@ -1,24 +1,31 @@
 import Flex from "../../components/Flex";
 import MainBox from "../../components/MainBox";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { login } from "../../service";
 
 function Login() {
   const nav = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const onFinish = (values: any) => {
     login({
       email: values.email,
       password: values.password,
-    }).then((res) => {
-      if (!res) return;
-      alert("登录成功");
-      nav("/home");
-    });
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    alert("登录失败 请检查邮箱和密码" + errorInfo);
+    })
+      .then(() => {
+        messageApi.open({
+          type: "success",
+          content: " 登陆成功",
+        });
+        nav("/");
+      })
+      .catch(() => {
+        messageApi.open({
+          type: "error",
+          content: "邮箱或密码填写错误",
+        });
+      });
   };
 
   type FieldType = {
@@ -28,86 +35,80 @@ function Login() {
   };
 
   return (
-    <MainBox width="540px">
-      <Flex
-        style={{
-          fontSize: "40px",
-          color: "#373a3c",
-          flexDirection: "column",
-        }}
-      >
-        <div> Sign in</div>
-        <p
+    <>
+      {contextHolder}
+      <MainBox width="540px">
+        <Flex
           style={{
-            fontSize: "16px",
-            color: "#5cb85c",
-            marginTop: "10px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            nav("/register");
+            fontSize: "40px",
+            color: "#373a3c",
+            flexDirection: "column",
           }}
         >
-          Need an account?
-        </p>
-      </Flex>
-      <MainBox
-        width="540px"
-        style={{
-          marginTop: "20px",
-        }}
-      >
-        <Form
-          name="loginForm"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ width: "100%" }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          <div> Sign in</div>
+          <p
+            style={{
+              fontSize: "16px",
+              color: "#5cb85c",
+              marginTop: "10px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              nav("/register");
+            }}
+          >
+            Need an account?
+          </p>
+        </Flex>
+        <MainBox
+          width="540px"
+          style={{
+            marginTop: "20px",
+          }}
         >
-          <Form.Item<FieldType>
-            name="email"
-            rules={[
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              {
-                required: true,
-                message: "Please input your E-mail!",
-              },
-            ]}
-          >
-            <Input
-              placeholder="Email"
-              style={{
-                width: "540px",
-                padding: "12px 24px",
-              }}
-            />
-          </Form.Item>
-          <Form.Item<FieldType>
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password
-              placeholder="Password"
-              style={{
-                width: "540px",
-                padding: "12px 24px",
-              }}
-            />
-          </Form.Item>
-          <Form.Item wrapperCol={{ span: 8, offset: 20 }}>
-            <Button type="primary" htmlType="submit">
-              Sign in
-            </Button>
-          </Form.Item>
-        </Form>
+          <Form onFinish={onFinish}>
+            <Form.Item<FieldType>
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  message: "E-mail 格式不正确！",
+                },
+                {
+                  required: true,
+                  message: "E-mail 不能为空！",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Email"
+                style={{
+                  width: "540px",
+                  padding: "12px 24px",
+                }}
+              />
+            </Form.Item>
+            <Form.Item<FieldType>
+              name="password"
+              rules={[{ required: true, message: "密码不能为空！" }]}
+            >
+              <Input.Password
+                placeholder="Password"
+                style={{
+                  width: "540px",
+                  padding: "12px 24px",
+                }}
+              />
+            </Form.Item>
+            <Form.Item wrapperCol={{ span: 8, offset: 20 }}>
+              <Button type="primary" htmlType="submit">
+                Sign in
+              </Button>
+            </Form.Item>
+          </Form>
+        </MainBox>
       </MainBox>
-    </MainBox>
+    </>
   );
 }
 

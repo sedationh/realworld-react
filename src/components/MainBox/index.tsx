@@ -1,8 +1,10 @@
+import { ComponentProps } from "react";
+
 type MainBoxProps = {
   children: React.ReactNode;
   width?: string;
-  style?: React.CSSProperties;
-};
+} & ComponentProps<"div">;
+
 function MainBox(props: MainBoxProps) {
   return (
     <div

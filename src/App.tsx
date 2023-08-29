@@ -3,6 +3,7 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import router from "./routes.tsx";
+
 function App() {
   return (
     <React.StrictMode>
